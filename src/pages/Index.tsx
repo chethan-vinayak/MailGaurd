@@ -67,7 +67,7 @@ const Index = () => {
           </div>
           <h1 className="text-4xl sm:text-6xl font-display font-black tracking-tight uppercase">
             <span className="text-foreground">Detect</span>{" "}
-            <span className="bg-gradient-hero bg-clip-text text-transparent text-glow">
+            <span className="text-primary [filter:drop-shadow(0_0_12px_hsl(var(--primary)/0.7))]">
               Phishing
             </span>{" "}
             <span className="text-foreground">Emails</span>
