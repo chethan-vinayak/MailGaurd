@@ -1,4 +1,4 @@
-# NeuroPhish//ML — Cyber Phishing Email Detector
+# MailGuard — Cyber Phishing Email Detector
 
 A machine-learning powered phishing email detector with a cyberpunk-themed React UI.
 Built with **Scikit-learn** (Python) for model training and **React + Vite + TypeScript + Tailwind CSS** for an interactive, in-browser classifier.
@@ -62,8 +62,8 @@ and the confusion matrix image used in the UI.
 ### Install & Run
 
 ```bash
-git clone https://github.com/<your-username>/neurophish-ml.git
-cd neurophish-ml
+git clone https://github.com/<your-username>/mailguard.git
+cd mailguard
 npm install
 npm run dev
 ```
@@ -122,24 +122,9 @@ All colors are HSL semantic tokens — components never hard-code colors.
 
 ---
 
-## 💡 Suggested Project Names
+## 💡 About the Name
 
-Pick whichever vibe fits your repo:
-
-| Name              | Vibe                                            |
-| ----------------- | ----------------------------------------------- |
-| **NeuroPhish//ML**| Current default — cyberpunk + neural net        |
-| **PhishNet.AI**   | Clean, professional, AI-forward                 |
-| **Hookshot**      | Short, punchy — "phishing hook" reference       |
-| **CipherMail**    | Cryptography / cyber security crossover         |
-| **GhostInbox**    | Stealthy, ghost-in-the-shell aesthetic          |
-| **Sentinel-X**    | Guardian / defense-grade tool                   |
-| **PhishBlock**    | Direct, descriptive, easy to remember           |
-| **DarkLetter**    | Noir cyber thriller feel                        |
-| **MailWraith**    | Dark, ominous — perfect for the neon UI         |
-| **Kernel://Phish**| Hacker terminal aesthetic                       |
-
-My top picks: **NeuroPhish//ML**, **MailWraith**, **Kernel://Phish**.
+**MailGuard** — a clear, trustworthy name that says exactly what it does: guards your inbox against phishing threats.
 
 ---
 
