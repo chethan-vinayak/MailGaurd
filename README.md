@@ -1,4 +1,4 @@
-# NeuroPhish//ML — Cyber Phishing Email Detector
+# MailGuard — Cyber Phishing Email Detector
 
 A machine-learning powered phishing email detector with a cyberpunk-themed React UI.
 Built with **Scikit-learn** (Python) for model training and **React + Vite + TypeScript + Tailwind CSS** for an interactive, in-browser classifier.
@@ -62,8 +62,8 @@ and the confusion matrix image used in the UI.
 ### Install & Run
 
 ```bash
-git clone https://github.com/<your-username>/neurophish-ml.git
-cd neurophish-ml
+git clone https://github.com/<your-username>/mailguard.git
+cd mailguard
 npm install
 npm run dev
 ```

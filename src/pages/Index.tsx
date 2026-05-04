@@ -45,7 +45,7 @@ const Index = () => {
             </div>
             <div>
               <div className="font-display font-bold tracking-widest text-primary text-glow uppercase text-sm">
-                NeuroPhish//ML
+                MailGuard
               </div>
               <div className="text-[10px] text-muted-foreground uppercase tracking-[0.2em]">
                 &gt; scikit-learn email threat classifier
