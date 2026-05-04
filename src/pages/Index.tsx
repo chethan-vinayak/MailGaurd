@@ -1,16 +1,188 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useMemo, useState } from "react";
+import { Shield, Sparkles, Brain, BarChart3 } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { detectPhishing, MODEL_METRICS } from "@/lib/phishingDetector";
+import { ResultPanel } from "@/components/ResultPanel";
+import { ConfusionMatrix } from "@/components/ConfusionMatrix";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const SAMPLES: { label: string; text: string }[] = [
+  {
+    label: "Phishing — bank alert",
+    text: "URGENT: Your PayPal account has been suspended due to unusual activity. Verify now at http://secure-paypa1.com/login within 24 hours to avoid permanent closure!",
+  },
+  {
+    label: "Phishing — package",
+    text: "DHL: your package is on hold. Customs fee $2.99 due. Pay immediately: http://dhl-tracking-help.tk/dhl-fee",
+  },
+  {
+    label: "Safe — colleague",
+    text: "Hi Sam, just confirming our meeting tomorrow at 10am to review the Q3 roadmap. Let me know if anything changes.",
+  },
+  {
+    label: "Safe — order",
+    text: "Your Amazon order #112-3344 has shipped and will arrive Tuesday. Track at https://amazon.com/orders",
+  },
+];
+
+const Index = () => {
+  const [text, setText] = useState("");
+  const result = useMemo(
+    () => (text.trim().length > 0 ? detectPhishing(text) : null),
+    [text]
+  );
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="min-h-screen bg-gradient-surface">
+      {/* Header */}
+      <header className="border-b border-border/60 bg-background/70 backdrop-blur-sm sticky top-0 z-10">
+        <div className="container flex items-center justify-between py-4">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-lg bg-gradient-hero grid place-items-center shadow-glow">
+              <Shield className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <div className="font-bold tracking-tight">PhishGuard ML</div>
+              <div className="text-xs text-muted-foreground">
+                Scikit-learn powered email classifier
+              </div>
+            </div>
+          </div>
+          <Badge variant="outline" className="hidden sm:inline-flex gap-1.5">
+            <Sparkles className="w-3 h-3" />
+            {(MODEL_METRICS.accuracy * 100).toFixed(1)}% test accuracy
+          </Badge>
+        </div>
+      </header>
+
+      <main className="container py-10 space-y-12">
+        {/* Hero */}
+        <section className="text-center max-w-2xl mx-auto">
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
+            Detect phishing emails{" "}
+            <span className="bg-gradient-hero bg-clip-text text-transparent">
+              instantly
+            </span>
+          </h1>
+          <p className="text-muted-foreground mt-4 text-lg">
+            Paste any email below. Our model analyses URLs, keywords and
+            writing style to classify it as <strong>Phishing</strong> or{" "}
+            <strong>Safe</strong>.
+          </p>
+        </section>
+
+        {/* Detector */}
+        <section className="grid lg:grid-cols-5 gap-6">
+          <Card className="lg:col-span-3 p-6 shadow-card">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="font-semibold flex items-center gap-2">
+                <Brain className="w-4 h-4 text-primary" />
+                Email content
+              </h2>
+              <div className="flex flex-wrap gap-1.5 justify-end">
+                {SAMPLES.map((s) => (
+                  <Button
+                    key={s.label}
+                    size="sm"
+                    variant="outline"
+                    className="h-7 text-xs"
+                    onClick={() => setText(s.text)}
+                  >
+                    {s.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
+            <Textarea
+              value={text}
+              onChange={(e) => setText(e.target.value.slice(0, 5000))}
+              placeholder="Paste the email body here…"
+              className="min-h-[280px] font-mono text-sm resize-y"
+            />
+            <div className="flex justify-between items-center mt-3 text-xs text-muted-foreground">
+              <span>{text.length} / 5000 chars</span>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setText("")}
+                disabled={!text}
+              >
+                Clear
+              </Button>
+            </div>
+          </Card>
+
+          <div className="lg:col-span-2">
+            {result ? (
+              <ResultPanel result={result} />
+            ) : (
+              <Card className="p-8 h-full grid place-items-center text-center shadow-card border-dashed">
+                <div>
+                  <Shield className="w-10 h-10 mx-auto text-muted-foreground/50" />
+                  <p className="mt-3 text-sm text-muted-foreground">
+                    Paste an email or pick a sample to see the analysis.
+                  </p>
+                </div>
+              </Card>
+            )}
+          </div>
+        </section>
+
+        {/* Model card */}
+        <section className="grid lg:grid-cols-2 gap-6">
+          <Card className="p-6 shadow-card">
+            <div className="flex items-center gap-2 mb-4">
+              <BarChart3 className="w-4 h-4 text-primary" />
+              <h2 className="font-semibold">Confusion matrix (test set)</h2>
+            </div>
+            <div className="overflow-x-auto">
+              <ConfusionMatrix
+                matrix={MODEL_METRICS.confusionMatrix}
+                labels={MODEL_METRICS.labels}
+              />
+            </div>
+            <p className="text-xs text-muted-foreground mt-4">
+              Evaluated on {MODEL_METRICS.testSize} held-out emails
+              ({MODEL_METRICS.trainSize} training). Diagonal = correct
+              predictions.
+            </p>
+          </Card>
+
+          <Card className="p-6 shadow-card">
+            <h2 className="font-semibold mb-4">About the model</h2>
+            <dl className="space-y-3 text-sm">
+              <Row k="Algorithm" v={MODEL_METRICS.algorithm} />
+              <Row k="Accuracy" v={`${(MODEL_METRICS.accuracy * 100).toFixed(2)}%`} />
+              <Row k="Training set" v={`${MODEL_METRICS.trainSize} emails`} />
+              <Row k="Test set" v={`${MODEL_METRICS.testSize} emails`} />
+              <Row k="Library" v="scikit-learn 1.8" />
+            </dl>
+            <p className="text-xs text-muted-foreground mt-4 leading-relaxed">
+              The browser uses an in-page port of the trained logistic-regression
+              decision function (URL features + weighted keyword scoring) so
+              detection runs instantly with no server round-trip. The full
+              Python training script, joblib model, dataset, and confusion-matrix
+              image are available as downloadable artifacts.
+            </p>
+          </Card>
+        </section>
+
+        <footer className="text-center text-xs text-muted-foreground py-6">
+          Built with React + Scikit-learn · Educational use only — not a
+          replacement for a real email security gateway.
+        </footer>
+      </main>
     </div>
   );
 };
 
-const Index = PlaceholderIndex;
+const Row = ({ k, v }: { k: string; v: string }) => (
+  <div className="flex justify-between gap-4 border-b border-border/50 pb-2 last:border-0">
+    <dt className="text-muted-foreground">{k}</dt>
+    <dd className="font-medium text-right">{v}</dd>
+  </div>
+);
 
 export default Index;
