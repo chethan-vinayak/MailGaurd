@@ -35,24 +35,26 @@ const Index = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-surface">
+    <div className="min-h-screen">
       {/* Header */}
-      <header className="border-b border-border/60 bg-background/70 backdrop-blur-sm sticky top-0 z-10">
+      <header className="border-b border-primary/30 bg-background/70 backdrop-blur-md sticky top-0 z-10">
         <div className="container flex items-center justify-between py-4">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-lg bg-gradient-hero grid place-items-center shadow-glow">
-              <Shield className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 rounded-md bg-background neon-border grid place-items-center shadow-glow animate-flicker">
+              <Shield className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <div className="font-bold tracking-tight">PhishGuard ML</div>
-              <div className="text-xs text-muted-foreground">
-                Scikit-learn powered email classifier
+              <div className="font-display font-bold tracking-widest text-primary text-glow uppercase text-sm">
+                NeuroPhish//ML
+              </div>
+              <div className="text-[10px] text-muted-foreground uppercase tracking-[0.2em]">
+                &gt; scikit-learn email threat classifier
               </div>
             </div>
           </div>
-          <Badge variant="outline" className="hidden sm:inline-flex gap-1.5">
+          <Badge variant="outline" className="hidden sm:inline-flex gap-1.5 border-primary/50 text-primary bg-primary/5">
             <Sparkles className="w-3 h-3" />
-            {(MODEL_METRICS.accuracy * 100).toFixed(1)}% test accuracy
+            ACC {(MODEL_METRICS.accuracy * 100).toFixed(1)}%
           </Badge>
         </div>
       </header>
@@ -60,16 +62,21 @@ const Index = () => {
       <main className="container py-10 space-y-12">
         {/* Hero */}
         <section className="text-center max-w-2xl mx-auto">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
-            Detect phishing emails{" "}
-            <span className="bg-gradient-hero bg-clip-text text-transparent">
-              instantly
-            </span>
+          <div className="inline-block px-3 py-1 mb-4 text-[10px] tracking-[0.3em] uppercase border border-accent/40 text-accent bg-accent/5 rounded">
+            // SYSTEM ONLINE
+          </div>
+          <h1 className="text-4xl sm:text-6xl font-display font-black tracking-tight uppercase">
+            <span className="text-foreground">Detect</span>{" "}
+            <span className="bg-gradient-hero bg-clip-text text-transparent text-glow">
+              Phishing
+            </span>{" "}
+            <span className="text-foreground">Emails</span>
           </h1>
-          <p className="text-muted-foreground mt-4 text-lg">
-            Paste any email below. Our model analyses URLs, keywords and
-            writing style to classify it as <strong>Phishing</strong> or{" "}
-            <strong>Safe</strong>.
+          <p className="text-muted-foreground mt-4 text-base">
+            Paste any email below. The neural classifier analyses URLs, keywords
+            and writing patterns to flag it as{" "}
+            <span className="text-danger font-semibold">[PHISHING]</span> or{" "}
+            <span className="text-safe font-semibold">[SAFE]</span>.
           </p>
         </section>
 
@@ -169,9 +176,8 @@ const Index = () => {
           </Card>
         </section>
 
-        <footer className="text-center text-xs text-muted-foreground py-6">
-          Built with React + Scikit-learn · Educational use only — not a
-          replacement for a real email security gateway.
+        <footer className="text-center text-[10px] uppercase tracking-[0.3em] text-muted-foreground py-6 border-t border-primary/20">
+          // BUILT WITH REACT + SCIKIT-LEARN · EDUCATIONAL USE ONLY //
         </footer>
       </main>
     </div>
