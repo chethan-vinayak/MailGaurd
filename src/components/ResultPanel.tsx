@@ -11,20 +11,26 @@ export const ResultPanel = ({ result }: { result: DetectionResult }) => {
   return (
     <div className="space-y-4 animate-in fade-in duration-300">
       <Card
-        className={`p-6 text-white shadow-card ${
-          isPhish ? "bg-gradient-danger" : "bg-gradient-safe"
+        className={`relative overflow-hidden p-6 scanline border-2 ${
+          isPhish
+            ? "bg-background border-danger shadow-neon-danger"
+            : "bg-background border-safe shadow-neon-safe"
         }`}
       >
-        <div className="flex items-start gap-4">
+        <div className="flex items-start gap-4 relative">
           {isPhish ? (
-            <AlertTriangle className="w-10 h-10 shrink-0" />
+            <AlertTriangle className="w-10 h-10 shrink-0 text-danger animate-flicker" />
           ) : (
-            <ShieldCheck className="w-10 h-10 shrink-0" />
+            <ShieldCheck className="w-10 h-10 shrink-0 text-safe" />
           )}
           <div className="flex-1">
-            <div className="text-sm opacity-90">Verdict</div>
-            <div className="text-3xl font-bold tracking-tight">
-              {result.verdict}
+            <div className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">// VERDICT</div>
+            <div
+              className={`text-3xl font-display font-black tracking-widest uppercase ${
+                isPhish ? "text-danger text-glow-danger" : "text-safe text-glow-safe"
+              }`}
+            >
+              [{result.verdict}]
             </div>
             <div className="mt-3 flex items-center gap-3">
               <Progress
