@@ -62,7 +62,7 @@ and the confusion matrix image used in the UI.
 ### Install & Run
 
 ```bash
-git clone https://github.com/<your-username>/mailguard.git
+git clone https://github.com/chethan-vinayak/mailguard.git
 cd mailguard
 npm install
 npm run dev
