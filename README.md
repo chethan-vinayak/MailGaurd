@@ -64,8 +64,8 @@ and the confusion matrix image used in the UI.
 ```bash
 git clone https://github.com/chethan-vinayak/MailGaurd.git
 cd MailGuard
-npm install
-npm run dev
+bun install
+bun run dev
 ```
 
 Open [http://localhost:5173](http://localhost:5173) and start pasting emails.
